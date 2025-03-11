@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded'); // Debug log
 
-    // Protocol definitions with comprehensive toxicity rules
+    // First, let's combine protocols and workflows
     const protocols = {
         AC: {
             name: "AC (Doxorubicin/Cyclophosphamide)",
@@ -69,61 +69,104 @@ document.addEventListener('DOMContentLoaded', () => {
                 renal: "Adjust doses based on CrCl. Consider nephrology consult if Grade 3-4",
                 neutropenia: "Consider G-CSF support if Grade 3-4",
                 anemia: "Consider transfusion support if symptomatic"
-            }
+            },
+            premedications: [
+                {
+                    category: "Antiemetics",
+                    drugs: [
+                        { name: "Aprepitant", dose: "125 mg", route: "PO", timing: "60 mins before chemo" },
+                        { name: "Ondansetron", dose: "16 mg", route: "PO/IV", timing: "30 mins before chemo" },
+                        { name: "Dexamethasone", dose: "12 mg", route: "IV", timing: "30 mins before chemo" }
+                    ]
+                }
+            ],
+            chemotherapy: [
+                {
+                    name: "Doxorubicin",
+                    preparation: "Dilute in 50mL NS",
+                    administration: "IV Push over 5-15 minutes",
+                    specialInstructions: "Use closed system transfer device"
+                },
+                {
+                    name: "Cyclophosphamide",
+                    preparation: "Dilute in 250mL NS",
+                    administration: "IV over 30 minutes",
+                    specialInstructions: "None"
+                }
+            ],
+            postMedications: [
+                {
+                    category: "Antiemetics",
+                    drugs: [
+                        { name: "Aprepitant", dose: "80 mg", route: "PO", timing: "Days 2-3" },
+                        { name: "Dexamethasone", dose: "8 mg", route: "PO", timing: "Days 2-4" }
+                    ]
+                }
+            ],
+            gcsf: {
+                indication: "Primary prophylaxis recommended",
+                options: [
+                    { name: "Pegfilgrastim", dose: "6 mg", schedule: "Day 2" }
+                ]
+            },
+            emetogenicity: "High"
         },
         CarboPac: {
             name: "Carboplatin-Paclitaxel",
             drugs: {
-                carboplatin: { 
-                    dose: "AUC", 
-                    unit: "mg",
-                    reductionRules: {
-                        thrombocytopenia: {
-                            2: 25,
-                            3: 50,
-                            4: 75
-                        },
-                        renal: {
-                            2: 25,
-                            3: 50,
-                            4: 75
-                        }
-                    }
-                },
-                paclitaxel: { 
-                    dose: 175, 
-                    unit: "mg/m²",
-                    reductionRules: {
-                        neutropenia: {
-                            2: 25,
-                            3: 50,
-                            4: 75
-                        },
-                        neuropathy: {
-                            2: 25,
-                            3: 50,
-                            4: 100 // Discontinue
-                        },
-                        hepatic: {
-                            2: 25,
-                            3: 50,
-                            4: 75
-                        },
-                        mucositis: {
-                            3: 25,
-                            4: 50
-                        }
-                    }
-                }
+                paclitaxel: { dose: 175, unit: "mg/m²" },
+                carboplatin: { dose: "AUC", unit: "mg" }
             },
-            reference: "NCCN NSCLC Guidelines Version 3.2023",
+            premedications: [
+                {
+                    category: "Antiemetics",
+                    drugs: [
+                        { name: "Ondansetron", dose: "16 mg", route: "PO/IV", timing: "30 mins before chemo" },
+                        { name: "Dexamethasone", dose: "20 mg", route: "IV", timing: "30 mins before chemo" }
+                    ]
+                },
+                {
+                    category: "Premedications for Hypersensitivity",
+                    drugs: [
+                        { name: "Diphenhydramine", dose: "50 mg", route: "IV", timing: "30 mins before paclitaxel" },
+                        { name: "Ranitidine", dose: "50 mg", route: "IV", timing: "30 mins before paclitaxel" }
+                    ]
+                }
+            ],
+            chemotherapy: [
+                {
+                    name: "Paclitaxel",
+                    preparation: "Dilute in 500mL NS, use non-PVC bag and tubing",
+                    administration: "IV infusion over 3 hours",
+                    specialInstructions: "Monitor for hypersensitivity reaction during first 15-30 minutes"
+                },
+                {
+                    name: "Carboplatin",
+                    preparation: "Dilute in 250mL D5W or NS",
+                    administration: "IV infusion over 30-60 minutes",
+                    specialInstructions: "Administer after paclitaxel completion"
+                }
+            ],
+            postMedications: [
+                {
+                    category: "Antiemetics",
+                    drugs: [
+                        { name: "Dexamethasone", dose: "8 mg", route: "PO", timing: "Days 2-3, morning" },
+                        { name: "Ondansetron", dose: "8 mg", route: "PO", timing: "Every 8h PRN, Days 2-3" }
+                    ]
+                }
+            ],
+            gcsf: {
+                indication: "Consider secondary prophylaxis if prior neutropenia",
+                options: [
+                    { name: "Filgrastim", dose: "5 mcg/kg", schedule: "Days 5-10 if needed" },
+                    { name: "Pegfilgrastim", dose: "6 mg", schedule: "Day 4 (>24h after chemo)" }
+                ]
+            },
+            emetogenicity: "Moderate",
             frequency: "Every 21 days",
             cycles: "4-6 cycles",
-            warnings: {
-                neuropathy: "Consider dose reduction or discontinuation if Grade ≥2",
-                hepatic: "Monitor LFTs closely",
-                neutropenia: "Consider G-CSF support if Grade 3-4"
-            }
+            reference: "NCCN NSCLC/Gynecologic Cancer Guidelines v2.2023"
         }
     };
 
@@ -191,9 +234,36 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Calculate button found:', calculateButton); // Debug log
 
     if (calculateButton) {
-        calculateButton.addEventListener('click', () => {
-            console.log('Button clicked'); // Debug log
-            calculateAll();
+        calculateButton.addEventListener('click', function() {
+            console.log('Calculate button clicked'); // Debug log
+            
+            // Get input values
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const creatinine = parseFloat(document.getElementById('creatinine').value);
+            const regimenKey = document.getElementById('regimen').value;
+
+            console.log('Input values:', { height, weight, age, gender, creatinine, regimenKey }); // Debug log
+
+            // Validate inputs
+            if (!height || !weight || !age || !creatinine) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Calculate BSA and CrCl
+            const bsa = calculateBSA(height, weight);
+            const crcl = calculateCrCl(age, weight, creatinine, gender);
+
+            console.log('Calculated values:', { bsa, crcl }); // Debug log
+
+            // Display metrics
+            displayPatientMetrics(bsa, crcl);
+
+            // Calculate and display doses
+            calculateAndDisplayDoses(bsa, crcl, regimenKey);
         });
     }
 
@@ -248,8 +318,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function calculateAndDisplayDoses(bsa, crcl, regimenKey) {
+        console.log("Selected regimen:", regimenKey);
+        console.log("Protocols:", protocols);
+        
         const protocol = protocols[regimenKey];
+        console.log("Selected protocol:", protocol);
+
+        if (!protocol.premedications || !protocol.chemotherapy || !protocol.postMedications || !protocol.gcsf) {
+            console.error("Missing protocol sections!");
+            return;
+        }
+
         const tableContainer = document.getElementById('dose-table-container');
+        const workflowContainer = document.getElementById('regimen-workflow');
         
         // Get manual reduction percentage if any
         const reductionSelect = document.getElementById('reduction-percentage');
@@ -265,7 +346,11 @@ document.addEventListener('DOMContentLoaded', () => {
             reductionPercent = (1 - parseFloat(reductionSelect.value)) * 100;
         }
 
-        let html = `
+        // Calculate doses and store them
+        const calculatedDoses = {};
+
+        // Create doses table HTML
+        let tableHtml = `
             <h3>Calculated Doses - ${protocol.name}</h3>
             <table class="dose-table">
                 <thead>
@@ -288,40 +373,111 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const roundedDose = roundDose(calculatedDose);
-            const reducedDose = reductionPercent > 0 ? 
-                roundDose(roundedDose * (1 - reductionPercent/100)) : null;
+            const finalDose = reductionPercent > 0 ? 
+                roundDose(roundedDose * (1 - reductionPercent/100)) : roundedDose;
+            
+            calculatedDoses[drug] = finalDose;
 
-            html += `
+            tableHtml += `
                 <tr>
                     <td>${drug.charAt(0).toUpperCase() + drug.slice(1)}</td>
                     <td>${details.dose} ${details.unit}</td>
                     <td>${calculatedDose.toFixed(1)} mg</td>
                     <td>${roundedDose} mg</td>
-                    ${reductionPercent > 0 ? `<td class="reduced-dose">${reducedDose} mg</td>` : ''}
+                    ${reductionPercent > 0 ? `<td class="reduced-dose">${finalDose} mg</td>` : ''}
                 </tr>`;
         }
 
-        html += `</tbody></table>
-            <div class="protocol-details">
-                <p><strong>Frequency:</strong> ${protocol.frequency}</p>
-                <p><strong>Duration:</strong> ${protocol.cycles}</p>
-            </div>`;
+        tableHtml += `</tbody></table>`;
 
-        tableContainer.innerHTML = html;
+        // Display the dose table
+        tableContainer.innerHTML = tableHtml;
+
+        // Generate the regimen flowchart
+        let workflowHtml = `
+            <div class="regimen-flow">
+                <!-- Pre-Medications Section -->
+                <div class="flow-section premedication-section">
+                    <h4>⏲️ Pre-Medications</h4>
+                    ${protocol.premedications.map(category => `
+                        <div class="medication-group">
+                            <h5>${category.category}</h5>
+                            ${category.drugs.map(drug => `
+                                <div class="flow-item">
+                                    <strong>${drug.name}</strong> ${drug.dose}
+                                    <div class="admin-details">
+                                        ${drug.route} | ${drug.timing}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Chemotherapy Section -->
+                <div class="flow-section chemotherapy-section">
+                    <h4>💊 Chemotherapy Administration</h4>
+                    ${protocol.chemotherapy.map(drug => `
+                        <div class="flow-item chemo-item">
+                            <strong>${drug.name}</strong>
+                            <div class="dose-details">
+                                Dose: ${calculatedDoses[drug.name.toLowerCase()]} mg
+                            </div>
+                            <div class="admin-details">
+                                ${drug.preparation}
+                                <br>
+                                ${drug.administration}
+                            </div>
+                            ${drug.specialInstructions ? `
+                                <div class="special-note">
+                                    ⚠️ ${drug.specialInstructions}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Post-Medications Section -->
+                <div class="flow-section postmedication-section">
+                    <h4>📋 Post-Medications</h4>
+                    ${protocol.postMedications.map(category => `
+                        <div class="medication-group">
+                            <h5>${category.category}</h5>
+                            ${category.drugs.map(drug => `
+                                <div class="flow-item">
+                                    <strong>${drug.name}</strong> ${drug.dose}
+                                    <div class="admin-details">
+                                        ${drug.route} | ${drug.timing}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- G-CSF Section -->
+                <div class="flow-section gcsf-section">
+                    <h4>💉 G-CSF Support</h4>
+                    <div class="flow-item">
+                        <div class="special-note">
+                            ${protocol.gcsf.indication}
+                        </div>
+                        ${protocol.gcsf.options.map(option => `
+                            <div class="admin-details">
+                                ${option.name} ${option.dose} | ${option.schedule}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Display the workflow
+        workflowContainer.innerHTML = workflowHtml;
 
         // Display reference
         document.getElementById('reference-container').innerHTML = 
             `<p><strong>Reference:</strong> ${protocol.reference}</p>`;
-
-        // Display reduction reason if provided
-        const reductionReason = document.getElementById('reduction-reason').value;
-        if (reductionPercent > 0 && reductionReason) {
-            tableContainer.insertAdjacentHTML('beforeend', `
-                <div class="reduction-reason">
-                    <strong>Dose Reduction Reason:</strong> ${reductionReason}
-                </div>
-            `);
-        }
     }
 
     function handleRegimenChange(event) {
@@ -624,5 +780,96 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reduction-percentage').addEventListener('change', function(e) {
         const customPercentageDiv = document.querySelector('.custom-percentage');
         customPercentageDiv.style.display = e.target.value === 'custom' ? 'block' : 'none';
+    });
+
+    // Add new event listener for the workflow button
+    document.getElementById('showWorkflowButton').addEventListener('click', function() {
+        const regimenKey = document.getElementById('regimen').value;
+        const protocol = protocols[regimenKey];
+        const workflowContainer = document.getElementById('regimen-workflow');
+        
+        let workflowHtml = `
+            <h3>Complete Regimen Workflow</h3>
+            <div class="emetogenicity ${protocol.emetogenicity.toLowerCase()}">
+                Emetogenicity: ${protocol.emetogenicity}
+            </div>
+
+            <!-- Premedications -->
+            <div class="workflow-section premedication-section">
+                <h4>Pre-Medications</h4>
+                <div class="medication-list">
+                    ${protocol.premedications.map(category => `
+                        <div class="medication-category">
+                            <h5>${category.category}</h5>
+                            ${category.drugs.map(drug => `
+                                <div class="medication-item">
+                                    <span class="drug-name">${drug.name}</span>
+                                    <span class="drug-dose">${drug.dose}</span>
+                                    <span class="drug-route">${drug.route}</span>
+                                    <span class="drug-timing">${drug.timing}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- Chemotherapy -->
+            <div class="workflow-section chemotherapy-section">
+                <h4>Chemotherapy Administration</h4>
+                <div class="medication-list">
+                    ${protocol.chemotherapy.map(drug => `
+                        <div class="medication-item">
+                            <span class="drug-name">${drug.name}</span>
+                            <span class="drug-prep">${drug.preparation}</span>
+                            <span class="drug-admin">${drug.administration}</span>
+                            ${drug.specialInstructions ? `
+                                <div class="special-instructions">
+                                    <i class="fas fa-info-circle"></i> ${drug.specialInstructions}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- Post-Medications -->
+            <div class="workflow-section postmedication-section">
+                <h4>Post-Medications</h4>
+                <div class="medication-list">
+                    ${protocol.postMedications.map(category => `
+                        <div class="medication-category">
+                            <h5>${category.category}</h5>
+                            ${category.drugs.map(drug => `
+                                <div class="medication-item">
+                                    <span class="drug-name">${drug.name}</span>
+                                    <span class="drug-dose">${drug.dose}</span>
+                                    <span class="drug-route">${drug.route}</span>
+                                    <span class="drug-timing">${drug.timing}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- G-CSF Support -->
+            <div class="workflow-section gcsf-section">
+                <h4>G-CSF Support</h4>
+                <div class="medication-list">
+                    <div class="special-instructions">
+                        <strong>Indication:</strong> ${protocol.gcsf.indication}
+                    </div>
+                    ${protocol.gcsf.options.map(option => `
+                        <div class="medication-item">
+                            <span class="drug-name">${option.name}</span>
+                            <span class="drug-dose">${option.dose}</span>
+                            <span class="drug-timing">${option.schedule}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+
+        workflowContainer.innerHTML = workflowHtml;
     });
 });
