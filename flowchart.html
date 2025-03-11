@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemotherapy Administration Flowcharts</title>
+    <link rel="stylesheet" href="flowchart.css">
+</head>
+<body>
+    <div class="flowchart-container">
+        <!-- AC Regimen -->
+        <div class="regimen-section">
+            <h2>AC Regimen (q3w x 4 cycles)</h2>
+            
+            <div class="flow-box premeds">
+                <h3>Pre-medications (30 mins before chemotherapy)</h3>
+                <ul>
+                    <li>Dexamethasone 20mg IV</li>
+                    <li>Ondansetron 16mg IV</li>
+                    <li>Ranitidine 50mg IV</li>
+                    <li>Diphenhydramine 50mg IV</li>
+                </ul>
+            </div>
+
+            <div class="flow-box administration">
+                <h3>Drug Administration</h3>
+                <ul>
+                    <li>
+                        <strong>Doxorubicin 60mg/m²</strong>
+                        <ul>
+                            <li>Dilute in 50ml NS</li>
+                            <li>Administer as slow IV push over 3-5 minutes</li>
+                            <li class="warning">Use side-port of freely running NS</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Cyclophosphamide 600mg/m²</strong>
+                        <ul>
+                            <li>Dilute in 250ml NS</li>
+                            <li>Infuse over 30 minutes</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flow-box postmeds">
+                <h3>Post-medications (Days 2-4)</h3>
+                <ul>
+                    <li>Dexamethasone 8mg PO BID</li>
+                    <li>Ondansetron 8mg PO TID prn</li>
+                    <li>Metoclopramide 10mg PO TID prn</li>
+                </ul>
+            </div>
+
+            <div class="flow-box supportive">
+                <h3>Supportive Care</h3>
+                <ul>
+                    <li>Consider G-CSF support as per guidelines</li>
+                    <li>Antiemetic prophylaxis (Highly emetogenic)</li>
+                    <li>Baseline and periodic cardiac monitoring</li>
+                    <li>Monitor CBC, LFT weekly for first cycle</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Carboplatin-Paclitaxel Regimen -->
+        <div class="regimen-section">
+            <h2>Carboplatin-Paclitaxel Regimen (q3w)</h2>
+            
+            <div class="flow-box premeds">
+                <h3>Pre-medications (30-60 mins before chemotherapy)</h3>
+                <ul>
+                    <li>Dexamethasone 20mg IV</li>
+                    <li>Diphenhydramine 50mg IV</li>
+                    <li>Ranitidine 50mg IV</li>
+                    <li>Ondansetron 16mg IV</li>
+                </ul>
+            </div>
+
+            <div class="flow-box hydration">
+                <h3>Pre-hydration</h3>
+                <ul>
+                    <li>NS 500ml over 30 minutes</li>
+                </ul>
+            </div>
+
+            <div class="flow-box administration">
+                <h3>Drug Administration</h3>
+                <ul>
+                    <li>
+                        <strong>Paclitaxel 175mg/m²</strong>
+                        <ul>
+                            <li>Dilute in 500ml NS</li>
+                            <li>Infuse over 3 hours</li>
+                            <li class="warning">Monitor for hypersensitivity in first 15-30 mins</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Carboplatin AUC 5-6</strong>
+                        <ul>
+                            <li>Dilute in 250ml D5W</li>
+                            <li>Infuse over 30-60 minutes</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flow-box postmeds">
+                <h3>Post-medications</h3>
+                <ul>
+                    <li>Ondansetron 8mg PO BID x 2-3 days prn</li>
+                    <li>Metoclopramide 10mg PO TID prn</li>
+                </ul>
+            </div>
+
+            <div class="flow-box supportive">
+                <h3>Supportive Care</h3>
+                <ul>
+                    <li>Monitor CBC weekly for first cycle</li>
+                    <li>Check creatinine before each cycle</li>
+                    <li>Monitor for neuropathy</li>
+                    <li>Consider G-CSF support if indicated</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
