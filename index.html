@@ -11,73 +11,173 @@
     <div class="calculator-container">
         <h1>Chemotherapy Dose Calculator</h1>
         
-        <!-- Input Section -->
-        <div class="input-section">
-            <div class="input-group">
-                <label for="height">Height (cm):</label>
-                <input type="number" id="height" step="0.1" required>
+        <!-- 1. Patient Details & Toxicity Assessment Section -->
+        <div class="patient-assessment-section">
+            <!-- Basic Patient Details -->
+            <div class="input-section">
+                <h3>Patient Details</h3>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="height">Height (cm):</label>
+                        <input type="number" id="height" step="0.1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="weight">Weight (kg):</label>
+                        <input type="number" id="weight" step="0.1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="age">Age (years):</label>
+                        <input type="number" id="age" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="creatinine">Creatinine (mg/dL):</label>
+                        <input type="number" id="creatinine" step="0.1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="regimen">Regimen:</label>
+                        <select id="regimen">
+                            <option value="">Select Regimen</option>
+                            <option value="AC">AC</option>
+                            <option value="CarboPac">Carboplatin-Paclitaxel</option>
+                        </select>
+                    </div>
+                    <div class="input-group" id="auc-group" style="display: none;">
+                        <label for="aucValue">Carboplatin AUC:</label>
+                        <select id="aucValue">
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="input-group">
-                <label for="weight">Weight (kg):</label>
-                <input type="number" id="weight" step="0.1" required>
-            </div>
-            <div class="input-group">
-                <label for="age">Age (years):</label>
-                <input type="number" id="age" required>
-            </div>
-            <div class="input-group">
-                <label for="creatinine">Creatinine (mg/dL):</label>
-                <input type="number" id="creatinine" step="0.1" required>
-            </div>
-            <div class="input-group">
-                <label for="gender">Gender:</label>
-                <select id="gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="regimen">Regimen:</label>
-                <select id="regimen">
-                    <option value="">Select Regimen</option>
-                    <option value="AC">AC</option>
-                    <option value="CarboPac">Carboplatin-Paclitaxel</option>
-                </select>
-            </div>
-            <div class="input-group" id="auc-group" style="display: none;">
-                <label for="aucValue">Carboplatin AUC:</label>
-                <select id="aucValue">
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
+
+            <!-- CTCAE Toxicity Assessment -->
+            <div class="toxicity-section">
+                <h3>CTCAE Toxicity Assessment</h3>
+                <div class="toxicity-grid">
+                    <!-- Hematological Toxicities -->
+                    <div class="toxicity-category">
+                        <h4>Hematological</h4>
+                        <div class="toxicity-group">
+                            <label>Anemia:</label>
+                            <select class="toxicity-select" data-toxicity="anemia">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: Hb < LLN - 10.0 g/dL</option>
+                                <option value="2">Grade 2: Hb 8.0-10.0 g/dL</option>
+                                <option value="3">Grade 3: Hb < 8.0 g/dL</option>
+                                <option value="4">Grade 4: Life-threatening</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                        <div class="toxicity-group">
+                            <label>Neutropenia:</label>
+                            <select class="toxicity-select" data-toxicity="neutropenia">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: ANC < LLN - 1500/mm³</option>
+                                <option value="2">Grade 2: ANC 1000-1500/mm³</option>
+                                <option value="3">Grade 3: ANC 500-1000/mm³</option>
+                                <option value="4">Grade 4: ANC < 500/mm³</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                        <div class="toxicity-group">
+                            <label>Thrombocytopenia:</label>
+                            <select class="toxicity-select" data-toxicity="thrombocytopenia">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: PLT < LLN - 75,000/mm³</option>
+                                <option value="2">Grade 2: PLT 50,000-75,000/mm³</option>
+                                <option value="3">Grade 3: PLT 25,000-50,000/mm³</option>
+                                <option value="4">Grade 4: PLT < 25,000/mm³</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- Organ Function -->
+                    <div class="toxicity-category">
+                        <h4>Organ Function</h4>
+                        <div class="toxicity-group">
+                            <label>Hepatic:</label>
+                            <select class="toxicity-select" data-toxicity="hepatic">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: Bilirubin > ULN-1.5×ULN; AST/ALT > ULN-3×ULN</option>
+                                <option value="2">Grade 2: Bilirubin 1.5-3×ULN; AST/ALT 3-5×ULN</option>
+                                <option value="3">Grade 3: Bilirubin 3-10×ULN; AST/ALT 5-20×ULN</option>
+                                <option value="4">Grade 4: Bilirubin >10×ULN; AST/ALT >20×ULN</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                        <div class="toxicity-group">
+                            <label>Renal:</label>
+                            <select class="toxicity-select" data-toxicity="renal">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: Cr > ULN-1.5×ULN</option>
+                                <option value="2">Grade 2: Cr 1.5-3×ULN</option>
+                                <option value="3">Grade 3: Cr 3-6×ULN</option>
+                                <option value="4">Grade 4: Cr >6×ULN</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- Other Toxicities -->
+                    <div class="toxicity-category">
+                        <h4>Other Toxicities</h4>
+                        <div class="toxicity-group">
+                            <label>Neuropathy:</label>
+                            <select class="toxicity-select" data-toxicity="neuropathy">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: Asymptomatic or mild symptoms</option>
+                                <option value="2">Grade 2: Moderate symptoms; limiting ADL</option>
+                                <option value="3">Grade 3: Severe symptoms; limiting self care</option>
+                                <option value="4">Grade 4: Life-threatening consequences</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                        <div class="toxicity-group">
+                            <label>Mucositis:</label>
+                            <select class="toxicity-select" data-toxicity="mucositis">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: Asymptomatic or mild symptoms</option>
+                                <option value="2">Grade 2: Moderate pain; not interfering with oral intake</option>
+                                <option value="3">Grade 3: Severe pain; interfering with oral intake</option>
+                                <option value="4">Grade 4: Life-threatening consequences</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                        <div class="toxicity-group">
+                            <label>Diarrhea:</label>
+                            <select class="toxicity-select" data-toxicity="diarrhea">
+                                <option value="0">Select Grade</option>
+                                <option value="1">Grade 1: Increase of <4 stools/day</option>
+                                <option value="2">Grade 2: Increase of 4-6 stools/day</option>
+                                <option value="3">Grade 3: Increase of ≥7 stools/day</option>
+                                <option value="4">Grade 4: Life-threatening consequences</option>
+                            </select>
+                            <div class="toxicity-alert hidden"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Results Section -->
-        <div class="results-section">
-            <div class="result-group">
-                <label>BSA (m²):</label>
-                <span id="bsa-result">-</span>
-            </div>
-            <div class="result-group">
-                <label>CrCl (mL/min):</label>
-                <span id="crcl-result">-</span>
-            </div>
-        </div>
-
-        <!-- Toxicity Section -->
-        <div id="toxicity-container"></div>
-
-        <!-- Custom Reduction Section -->
+        <!-- 2. Manual Dose Adjustment -->
         <div class="custom-reduction-section">
-            <h3>Custom Dose Reduction</h3>
+            <h3>Manual Dose Adjustment</h3>
             <div class="custom-reduction-inputs">
                 <div class="input-group">
-                    <label for="reduction-reason">Reason for Reduction:</label>
-                    <input type="text" id="reduction-reason" placeholder="Enter toxicity or reason">
+                    <label for="reduction-reason">Reason for Adjustment:</label>
+                    <input type="text" id="reduction-reason" placeholder="Enter reason for dose adjustment">
                 </div>
                 <div class="input-group">
-                    <label for="reduction-percentage">Reduction Percentage:</label>
+                    <label for="reduction-percentage">Adjustment Percentage:</label>
                     <select id="reduction-percentage">
                         <option value="1">No Reduction</option>
                         <option value="0.8">20% Reduction</option>
@@ -93,11 +193,32 @@
             </div>
         </div>
 
-        <!-- Calculate Button -->
-        <button id="calculateButton">Calculate BSA and Doses</button>
+        <!-- 3. Calculate Button -->
+        <button id="calculateButton">Calculate Doses</button>
 
-        <!-- Results will be displayed here -->
-        <div id="results"></div>
+        <!-- 4. Results Section -->
+        <div id="results">
+            <!-- BSA and CrCl Results -->
+            <div class="patient-metrics-section" style="display: none;">
+                <h3>Patient Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-group">
+                        <label>BSA (m²):</label>
+                        <span id="bsa-result">-</span>
+                    </div>
+                    <div class="metric-group">
+                        <label>CrCl (mL/min):</label>
+                        <span id="crcl-result">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dose Table -->
+            <div id="dose-table-container"></div>
+
+            <!-- Reference -->
+            <div id="reference-container"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
