@@ -1,0 +1,724 @@
+:root {
+    --primary-color: #2196F3;
+    --primary-light: #E3F2FD;
+    --text-color: #333;
+    --border-color: #E0E0E0;
+    --warning-color: #FFA000;
+    --success-color: #4CAF50;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #F5F7FA;
+    padding: 20px;
+}
+
+.calculator-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 24px;
+}
+
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+/* Grid layout for inputs */
+.input-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.input-group:hover {
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+    border-color: var(--primary-color);
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+/* Results section */
+.results-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--primary-light);
+    border-radius: 8px;
+}
+
+.result-group {
+    text-align: center;
+}
+
+.result-group label {
+    display: block;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.result-group span {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Toxicity section */
+.toxicity-section {
+    margin: 20px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.toxicity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.toxicity-input {
+    background: var(--primary-light);
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.toxicity-input label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.toxicity-input select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: white;
+}
+
+.toxicity-input select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.toxicity-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* Button styling */
+button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    display: block;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #1976D2;
+}
+
+/* Regimen table styling */
+.regimen-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.regimen-table th,
+.regimen-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.regimen-table th {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 500;
+}
+
+.regimen-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Flowchart styling */
+.patient-specific-flowchart {
+    margin: 30px 0;
+}
+
+.flow-box {
+    background: white;
+    margin: 15px 0;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.premeds { border-color: var(--primary-color); }
+.administration { border-color: var(--warning-color); }
+.postmeds { border-color: var(--success-color); }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .calculator-container {
+        padding: 15px;
+    }
+
+    .input-section {
+        grid-template-columns: 1fr;
+    }
+
+    .regimen-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .flow-box {
+        padding: 15px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none;
+    }
+
+    .calculator-container {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .patient-specific-flowchart {
+        break-inside: avoid;
+    }
+}
+
+.custom-reduction-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid var(--border-color);
+}
+
+.custom-reduction-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.dose-reduction-alert {
+    background-color: #ffebee;
+    border-left: 5px solid #ef5350;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.dose-reduction-alert h4 {
+    color: #c62828;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reduced-dose {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.custom-percentage {
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .custom-reduction-inputs {
+        grid-template-columns: 1fr;
+    }
+}
+
+.reduction-note {
+    color: #c62828;
+    font-size: 0.9em;
+    margin-left: 10px;
+    font-style: italic;
+}
+
+.flow-box strong.reduced-dose {
+    color: #c62828;
+    position: relative;
+}
+
+.flow-box strong.reduced-dose::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #c62828;
+    opacity: 0.3;
+}
+
+.administration li {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.administration li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.administration ul ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.administration ul ul li {
+    margin-bottom: 5px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.toxicity-alert {
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid;
+}
+
+.alert-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.alert-header i {
+    font-size: 1.2em;
+}
+
+.alert-content {
+    margin-left: 24px;
+}
+
+.dose-modification {
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.severity-high {
+    background-color: #ffebee;
+    border-left-color: #d32f2f;
+    color: #d32f2f;
+}
+
+.severity-medium {
+    background-color: #fff3e0;
+    border-left-color: #f57c00;
+    color: #f57c00;
+}
+
+.severity-low {
+    background-color: #fff8e1;
+    border-left-color: #ffd600;
+    color: #827717;
+}
+
+.severity-none {
+    background-color: #e8f5e9;
+    border-left-color: #43a047;
+    color: #2e7d32;
+}
+
+.toxicity-category {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.toxicity-group select {
+    margin-bottom: 8px;
+}
+
+/* Highlight severe toxicities */
+.toxicity-select option[value="3"],
+.toxicity-select option[value="4"] {
+    color: #d32f2f;
+    font-weight: 500;
+}
+
+.toxicity-alert.hidden {
+    display: none;
+}
+
+.toxicity-alert.hold {
+    background-color: #ffebee;
+    border-left: 4px solid #ef5350;
+}
+
+.toxicity-alert.reduce {
+    background-color: #fff3e0;
+    border-left: 4px solid #ff9800;
+}
+
+.toxicity-alert.warning {
+    background-color: #fff8e1;
+    border-left: 4px solid #ffd600;
+}
+
+.toxicity-alert.continue {
+    background-color: #e8f5e9;
+    border-left: 4px solid #4caf50;
+}
+
+.toxicity-alert.discontinue {
+    background-color: #ffebee;
+    border-left: 4px solid #c62828;
+    color: #c62828;
+}
+
+.toxicity-alert i {
+    font-size: 1.2em;
+    margin-top: 2px;
+}
+
+.toxicity-alert .alert-content {
+    flex: 1;
+}
+
+.toxicity-alert strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.toxicity-input select {
+    margin-bottom: 8px;
+}
+
+.toxicity-input select option {
+    padding: 4px;
+}
+
+.regimen-table td:last-child {
+    font-weight: bold;
+}
+
+.regimen-table td.reduced-dose {
+    color: #c62828;
+    position: relative;
+}
+
+.regimen-table td.reduced-dose::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #c62828;
+    opacity: 0.3;
+}
+
+/* Add tooltip for toxicity grades */
+.toxicity-input select option[value="0"] {
+    font-style: italic;
+    color: #666;
+}
+
+.ctcae-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ctcae-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 15px;
+}
+
+.toxicity-category {
+    background: var(--primary-light);
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.toxicity-category h4 {
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.toxicity-group {
+    margin-bottom: 16px;
+}
+
+.toxicity-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.toxicity-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.toxicity-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.toxicity-alert {
+    padding: 12px;
+    margin-top: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Add responsive design for mobile */
+@media (max-width: 768px) {
+    .ctcae-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .toxicity-category {
+        margin-bottom: 16px;
+    }
+}
+
+.patient-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section-header {
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.section-header h3 {
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.patient-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.clinical-summary {
+    background: var(--primary-light);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.clinical-summary h4 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.clinical-summary p {
+    margin: 8px 0;
+}
+
+#diagnosis {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#diagnosis:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+@media (max-width: 768px) {
+    .patient-details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Results Section Styling */
+.dose-results {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dose-results h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+/* Table Styling */
+.dose-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.dose-table th,
+.dose-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+.dose-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+}
+
+.dose-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.dose-table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Reference Section Styling */
+.reference {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #495057;
+}
+
+/* Basic Results Styling */
+#bsa-result,
+#crcl-result {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #e3f2fd;
+    border-radius: 4px;
+    font-size: 1.1em;
+}
+
+#bsa-result strong,
+#crcl-result strong {
+    color: #0056b3;
+}
+
+/* Results Container */
+#results {
+    margin-top: 20px;
+}
+
+/* Responsive Table */
+@media screen and (max-width: 768px) {
+    .dose-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .dose-table th,
+    .dose-table td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+}
