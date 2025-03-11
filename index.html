@@ -195,10 +195,11 @@
 
         <!-- 3. Calculate Button -->
         <button id="calculateButton">Calculate Doses</button>
+        <button id="showWorkflowButton" style="display: none;">Show Complete Regimen</button>
 
         <!-- 4. Results Section -->
         <div id="results">
-            <!-- BSA and CrCl Results -->
+            <!-- Patient Metrics Section -->
             <div class="patient-metrics-section" style="display: none;">
                 <h3>Patient Metrics</h3>
                 <div class="metrics-grid">
@@ -213,10 +214,13 @@
                 </div>
             </div>
 
-            <!-- Dose Table -->
+            <!-- Dose Table Container -->
             <div id="dose-table-container"></div>
 
-            <!-- Reference -->
+            <!-- Add this container for the regimen workflow -->
+            <div id="regimen-workflow" class="workflow-container"></div>
+
+            <!-- Reference Container -->
             <div id="reference-container"></div>
         </div>
     </div>
